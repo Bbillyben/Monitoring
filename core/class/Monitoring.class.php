@@ -334,6 +334,17 @@ class Monitoring extends eqLogic {
 			$MonitoringCmd->setSubType('other');
 			$MonitoringCmd->save();
 		}
+		$MonitoringCmd = $this->getCmd(null, 'forcerefresh');
+		if (!is_object($MonitoringCmd)) {
+			$MonitoringCmd = new MonitoringCmd();
+			$MonitoringCmd->setName(__('Force Refresh', __FILE__));
+			$MonitoringCmd->setEqLogic_id($this->getId());
+			$MonitoringCmd->setLogicalId('forcerefresh');
+			$MonitoringCmd->setType('action');
+			$MonitoringCmd->setSubType('other');
+			$MonitoringCmd->setIsVisible(0);
+			$MonitoringCmd->save();
+		}
 
 		$this->getInformations();
 	}
@@ -380,11 +391,13 @@ class Monitoring extends eqLogic {
 		$replace ['#hddpourcusedv2orangea#'] = $this->getConfiguration('hddpourcusedv2orangea');
 		$replace ['#hddpourcusedv2rougesupa#'] = $this->getConfiguration('hddpourcusedv2rougesupa');
 
+		$forcerefresh = $this->getCmd(null,'forcerefresh');
+		$replace['#forcerefresh_display#'] = (is_object($forcerefresh) && $forcerefresh->getIsVisible()) ? "#forcerefresh_display#" : "none";
+
 		$namedistri = $this->getCmd(null,'namedistri');
 		$replace['#namedistri#'] = (is_object($namedistri)) ? $namedistri->execCmd() : '';
 		$replace['#namedistriid#'] = is_object($namedistri) ? $namedistri->getId() : '';
 		$replace['#namedistri_display#'] = (is_object($namedistri) && $namedistri->getIsVisible()) ? "#namedistri_display#" : "none";
-
 
 		$loadavg1mn = $this->getCmd(null,'loadavg1mn');
 		$replace['#loadavg1mn#'] = (is_object($loadavg1mn)) ? $loadavg1mn->execCmd() : '';
@@ -1481,6 +1494,9 @@ class Monitoring extends eqLogic {
 						$poweroff = stream_get_contents($poweroffoutput);
 						log::add('Monitoring','debug','lancement commande deporte poweroff' . $this->getHumanName());
 						break;
+						case "forcerefresh":
+							$this->getInformations();
+						break;
 					}
 				}
 			}
@@ -1498,6 +1514,9 @@ class Monitoring extends eqLogic {
 					exec('sudo shutdown -P now >/dev/null & shutdown -P now >/dev/null');
 					log::add('Monitoring','debug','lancement commande local poweroff ' . $this->getHumanName());
 					break;
+					case "forcerefresh":
+							$this->getInformations();
+						break;
 				}
 			}else{
 				switch ($paramaction) {
@@ -1512,6 +1531,9 @@ class Monitoring extends eqLogic {
 					exec('sudo shutdown -P now >/dev/null & shutdown -P now >/dev/null');
 					log::add('Monitoring','debug','lancement commande local poweroff ' . $this->getHumanName());
 					break;
+					case "forcerefresh":
+							$this->getInformations();
+						break;
 				}
 			}
 		}
