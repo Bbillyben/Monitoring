@@ -37,6 +37,17 @@
 			}
 		</script>
     </span>
+	<span title="Froce Refresh datas" class="refreshDatas tooltips" data-type="action" data-subtype="other" data-cmd_id="#cmd_forcerefresh_id#" style="float: right;display: #forcerefresh_display#;">
+			<a class="action" style="cursor: pointer;"><i class="fas fa-spinner" style="font-size : 0.9em;padding-right:10px"></i></a>
+
+		<script>
+		$('.refreshDatas[data-cmd_id=#cmd_forcerefresh_id#] .action').on('click', function() {
+			console.log("execution de la commande");
+			jeedom.cmd.execute({id: '#cmd_forcerefresh_id#'});
+		});
+		</script>
+		</span>
+
 </center>
 
 
