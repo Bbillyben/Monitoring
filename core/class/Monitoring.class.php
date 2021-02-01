@@ -1496,6 +1496,13 @@ class Monitoring extends eqLogic {
 						break;
 						case "forcerefresh":
 							$this->getInformations();
+							$mc = cache::byKey('MonitoringWidgetmobile' .$this->getId());
+							$mc->remove();
+							$mc = cache::byKey('MonitoringWidgetdashboard' . $this->getId());
+							$mc->remove();
+							$this->toHtml('mobile');
+							$this->toHtml('dashboard');
+							$this->refreshWidget();
 						break;
 					}
 				}
@@ -1516,6 +1523,13 @@ class Monitoring extends eqLogic {
 					break;
 					case "forcerefresh":
 							$this->getInformations();
+							$mc = cache::byKey('MonitoringWidgetmobile' .$this->getId());
+							$mc->remove();
+							$mc = cache::byKey('MonitoringWidgetdashboard' . $this->getId());
+							$mc->remove();
+							$this->toHtml('mobile');
+							$this->toHtml('dashboard');
+							$this->refreshWidget();
 						break;
 				}
 			}else{
@@ -1533,6 +1547,13 @@ class Monitoring extends eqLogic {
 					break;
 					case "forcerefresh":
 							$this->getInformations();
+							$mc = cache::byKey('MonitoringWidgetmobile' .$this->getId());
+							$mc->remove();
+							$mc = cache::byKey('MonitoringWidgetdashboard' . $this->getId());
+							$mc->remove();
+							$this->toHtml('mobile');
+							$this->toHtml('dashboard');
+							$this->refreshWidget();
 						break;
 				}
 			}
